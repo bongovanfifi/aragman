@@ -96,11 +96,8 @@ function App() {
     let usedCounter = makeCounter(
       selectedWords.flatMap((word) => word.split(""))
     );
-
     let remaining: string[] = [];
     let excess: string[] = [];
-
-    // Check remaining (letters we have but haven't used)
     baseCounter.forEach((count, letter) => {
       let usedCount = usedCounter.get(letter) || 0;
       let diff = count - usedCount;
@@ -108,8 +105,6 @@ function App() {
         remaining.push(...Array(diff).fill(letter));
       }
     });
-
-    // Check excess (letters we're using more than we have)
     usedCounter.forEach((count, letter) => {
       let baseCount = baseCounter.get(letter) || 0;
       let diff = count - baseCount;
@@ -123,7 +118,6 @@ function App() {
     setUsedLetters([...usedCounter.keys()].sort());
   }, [selectedWords]);
 
-  // maybe all of these are implicit?
   const [usedLetters, setUsedLetters] = useState<string[]>([]);
   const [remainingLetters, setRemainingLetters] = useState<string[]>([]);
   const [excessLetters, setExcessLetters] = useState<string[]>([]);
