@@ -3,7 +3,6 @@ import "./App.css";
 import { Chip, Input, Button } from "./components";
 import { getWordMaps } from "./lib/word-maps";
 import { getAnagramKeys } from "./lib/anagrams";
-import { exec } from "child_process";
 
 const containerStyle = {
   padding: "20px",
@@ -38,8 +37,12 @@ function App() {
     new Map()
   );
 
-  const handleSearch = ({ word }: { word: string }) => {
-    const results = getAnagramKeys(tenK, word);
+  const cleanInput = (word: string) => {
+    return word.replace(/[^a-zA-Z]/g, "").toLowerCase();
+  };
+
+  const handleSearch = (word: string) => {
+    const results = getAnagramKeys(tenK, cleanInput(word));
     setCandidates(results);
   };
 
@@ -52,7 +55,7 @@ function App() {
   };
 
   type CandidateMap = Map<number, Set<string>>;
-  const makeCandidates = ({ candidates }: { candidates: CandidateMap }) => {
+  const makeCandidates = (candidates: CandidateMap) => {
     let contents = [];
     for (let [len, words] of candidates.entries()) {
       contents.push(<h3>{len}</h3>);
@@ -69,7 +72,7 @@ function App() {
     return contents;
   };
 
-  const makeSelected = ({ selectedWords }: { selectedWords: string[] }) => {
+  const makeSelected = (selectedWords: string[]) => {
     return selectedWords.map((word, index) => (
       <Chip
         key={`${word}-${index}`}
@@ -127,6 +130,7 @@ function App() {
 
   return (
     <div style={containerStyle}>
+      <h1>Manarag</h1>
       <div style={inputGroupStyle}>
         <span style={labelStyle}>Base word:</span>
         <Input
@@ -140,7 +144,7 @@ function App() {
           text="Search"
           onClick={() => {
             setSelectedWords([]);
-            handleSearch({ word: baseWord });
+            handleSearch(baseWord);
           }}
         />
       </div>
@@ -172,15 +176,14 @@ function App() {
               <br />
               <Button
                 text="Search only using letters remaining"
-                onClick={() =>
-                  handleSearch({ word: remainingLetters.join("") })
-                }
+                onClick={() => handleSearch(remainingLetters.join(""))}
               />
             </div>
           )}
         <br />
       </div>
       <div>
+        {/* should be a function that just hides when empty */}
         {excessLetters.length > 0 && (
           <div>
             <h2>Excess Letters!</h2>
@@ -189,12 +192,22 @@ function App() {
         )}
       </div>
       <div>
-        <h2>Selected Words:</h2>
-        {selectedWords.length > 0 && makeSelected({ selectedWords })}
+        {selectedWords.length > 0 && (
+          <div>
+            <h2>Selected Words:</h2>
+            <br />
+            {makeSelected(selectedWords)}
+          </div>
+        )}
       </div>
       <div>
-        <h2>Candidates:</h2>
-        {candidates.size > 0 && makeCandidates({ candidates })}
+        {candidates.size > 0 && (
+          <div>
+            <h2>Candidates:</h2>
+            <br />
+            {makeCandidates(candidates)}
+          </div>
+        )}
       </div>
     </div>
   );

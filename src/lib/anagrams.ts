@@ -1,7 +1,7 @@
-export function getAnagramKeys(
+export const getAnagramKeys = (
   wordMap: Map<string, string[]>,
   input: string
-): Map<number, Set<string>> {
+): Map<number, Set<string>> => {
   const sorted = input.split("").sort().reverse();
   const anagramKeys = new Map<number, Set<string>>();
   function helper(remaining: string[], candidate: string): void {
@@ -23,7 +23,7 @@ export function getAnagramKeys(
   }
   helper(sorted, "");
   return anagramKeys;
-}
+};
 
 // function rot13(s: string) {
 //   s.replace(/[a-zA-Z]/g, function (c) {
