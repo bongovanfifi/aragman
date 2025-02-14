@@ -1,11 +1,18 @@
-export function getAnagramKeys(wordMap: Map<string, string[]>, input: string) {
+export function getAnagramKeys(
+  wordMap: Map<string, string[]>,
+  input: string
+): Map<number, Set<string>> {
   const sorted = input.split("").sort().reverse();
-  const anagramKeys = new Map<number, string[]>();
-  function helper(remaining: string[], candidate: string) {
-    if (candidate && wordMap.has(candidate)) {
-      const existingWords = anagramKeys.get(candidate.length) || [];
-      existingWords.push(candidate);
-      anagramKeys.set(candidate.length, existingWords);
+  const anagramKeys = new Map<number, Set<string>>();
+  function helper(remaining: string[], candidate: string): void {
+    if (candidate && candidate.length > 1) {
+      const words = wordMap.get(candidate);
+      if (words) {
+        const existingWords =
+          anagramKeys.get(candidate.length) || new Set<string>();
+        words.forEach((word) => existingWords.add(word));
+        anagramKeys.set(candidate.length, existingWords);
+      }
     }
     const remainingWithout = [...remaining];
     const c = remainingWithout.pop();

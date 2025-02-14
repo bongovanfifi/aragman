@@ -10,3 +10,5 @@ export function getWordMaps() {
     tenK: new Map(tenK as [string, string[]][]),
   };
 }
+
+//TODO: import many, allow the user to pick from them
