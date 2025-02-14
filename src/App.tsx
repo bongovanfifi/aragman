@@ -26,6 +26,11 @@ const inputStyle = {
   width: "200px",
 };
 
+const textBlockStyle = {
+  width: "500px",
+  textAlign: "left" as const,
+};
+
 const { tenK } = getWordMaps();
 
 function App() {
@@ -124,14 +129,29 @@ function App() {
 
   return (
     <div style={containerStyle}>
-      <h1>Manarag</h1>
+      <div style={textBlockStyle}>
+        <h1>Manarag</h1>
+        <p>
+          Type something in as base word and hit search to see candidate
+          anagrams of different lengths. You can also add a custom word if the
+          one you want isn't present. Once you select words, you can search
+          again with only the remaining letters. There are very many things to
+          add to this, but the core functionality is there.
+        </p>
+        <p>
+          Also, this does a search client side. If you put in a big enough
+          string it will have to do way too much searching and crash your
+          browser. I could have prevented this, but I didn't because it is your
+          God-given right to crash your own hardware if you want to.
+        </p>
+      </div>
       <div style={inputGroupStyle}>
         <span style={labelStyle}>Base word:</span>
         <Input
           type="text"
           placeholder="Enter text"
           value={baseWord}
-          onChange={(e) => setBaseWord(e.target.value)}
+          onChange={(e) => setBaseWord(cleanInput(e.target.value))}
           style={inputStyle}
         />
         <Button
@@ -169,7 +189,7 @@ function App() {
               {remainingLetters.join("")}
               <br />
               <Button
-                text="Search only using letters remaining"
+                text="Search using remaining letters"
                 onClick={() => handleSearch(remainingLetters.join(""))}
               />
             </div>
