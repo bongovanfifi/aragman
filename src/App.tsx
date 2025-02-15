@@ -177,9 +177,9 @@ function App() {
     usedCounter.forEach((count, letter) => {
       allUsedLetters.push(...Array(count).fill(letter));
     });
-    setRemainingLetters(remaining.sort());
     setExcessLetters(excess.sort());
     setUsedLetters([...allUsedLetters].sort());
+    setRemainingLetters(remaining.sort());
   }, [selectedWords]);
 
   useEffect(() => {
@@ -251,6 +251,7 @@ function App() {
       </div>
       <div>
         {remainingLetters.length > 0 &&
+          selectedWords.length > 0 &&
           remainingLetters.length < cleanInput(baseWord).length && (
             <div>
               <div style={sectionStyle}>Letters Remaining</div>
