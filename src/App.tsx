@@ -9,7 +9,9 @@ const containerStyle = {
   display: "flex",
   flexDirection: "column" as const,
   gap: "20px",
-  maxWidth: "1000px",
+  width: "95%",
+  maxWidth: "800px", // Keep the max-width for desktop
+  margin: "0 auto", // Center the container
 };
 
 const inputGroupStyle = {
@@ -27,7 +29,8 @@ const inputStyle = {
 };
 
 const textBlockStyle = {
-  width: "500px",
+  width: "100%", // Changed from fixed 500px to be responsive
+  maxWidth: "500px", // Added max-width to maintain readability on larger screens
   textAlign: "left" as const,
 };
 
@@ -97,7 +100,7 @@ function App() {
       });
       return counter;
     }
-    let baseCounter = makeCounter(baseWord.split(""));
+    let baseCounter = makeCounter(cleanInput(baseWord).split(""));
     let usedCounter = makeCounter(
       selectedWords.flatMap((word) => word.split(""))
     );
@@ -151,14 +154,14 @@ function App() {
           type="text"
           placeholder="Enter text"
           value={baseWord}
-          onChange={(e) => setBaseWord(cleanInput(e.target.value))}
+          onChange={(e) => setBaseWord(e.target.value)}
           style={inputStyle}
         />
         <Button
           text="Search"
           onClick={() => {
             setSelectedWords([]);
-            handleSearch(baseWord);
+            handleSearch(cleanInput(baseWord));
           }}
         />
       </div>
@@ -183,7 +186,7 @@ function App() {
       </div>
       <div>
         {remainingLetters.length > 0 &&
-          remainingLetters.length < baseWord.length && (
+          remainingLetters.length < cleanInput(baseWord).length && (
             <div>
               <h2>Letters Remaining</h2>
               {remainingLetters.join("")}
