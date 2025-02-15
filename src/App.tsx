@@ -180,7 +180,7 @@ function App() {
     setExcessLetters(excess.sort());
     setUsedLetters([...allUsedLetters].sort());
     setRemainingLetters(remaining.sort());
-  }, [selectedWords]);
+  }, [selectedWords, baseWord]);
 
   useEffect(() => {
     handleSearch(remainingLetters.join(""));
@@ -191,33 +191,34 @@ function App() {
       {/* TODO: add dropdown to select word list. also, add a smaller wordlist */}
       <div style={textBlockStyle}>
         <h1>Manarag</h1>
-        Type something in as base word and hit search to see candidate anagrams
-        of different lengths. You can also add a custom word if the one you want
-        isn't present. Once you select words, you can search again with only the
-        remaining letters. There are very many things to add to this, but the
-        core functionality is there.
+        Type something in to see candidate anagrams of different lengths. You
+        can also add a custom word if the one you want isn't present. The word
+        list it's using right now is apparently full of two letter non-words.
+        I'll look for a better one. Also, it does that classic React flicker.
+        Why did I use React? The devil you know is better than the devil that
+        requires you to learn a new Javascript framework.
         <br />
         <br />
-        Also, this does a search client side. If you put in a big enough string
+        Also, this does searches client side. If you put in a big enough string
         it will have to do way too much searching and crash your browser. I
         could have prevented this, but I didn't because it is your God-given
-        right to crash your own hardware if you want to.
+        right to crash your own hardware.
       </div>
       <div style={inputGroupStyle}>
         <Input
           type="text"
-          placeholder="Enter base word"
+          placeholder="Enter word to anagram"
           value={baseWord}
           onChange={(e) => setBaseWord(e.target.value)}
           style={inputStyle}
         />
-        <Button
+        {/* <Button
           text="Search for anagrams"
           onClick={() => {
             setSelectedWords([]);
             handleSearch(cleanInput(baseWord));
           }}
-        />
+        /> */}
       </div>
       <div style={inputGroupStyle}>
         <Input
@@ -229,61 +230,49 @@ function App() {
         />
         <Button text="Add word" onClick={() => handleSelectWord(subWord)} />
       </div>
-      <div style={inputGroupStyle}>
-        {/* <Button
+      {/* <div style={inputGroupStyle}>
+        <Button
           text="Search using remaining letters"
           onClick={() => handleSearch(remainingLetters.join(""))}
           disabled={
             remainingLetters.length == 0 &&
             remainingLetters.length > cleanInput(baseWord).length
           }
-          // TODO: disabled needs to have a visual indicator!
-        /> */}
-        {/* TODO: add an option to disable auto search, then enable this */}
-      </div>
-      <div>
-        {usedLetters.length > 0 && (
+          // TODO: disabled needs to have a visual indicator! add an option to disable auto search, then enable this, also
+        />
+      </div> */}
+      {usedLetters.length > 0 && (
+        <div>
+          <div style={sectionStyle}>Letters Used</div>
+          <div style={lettersStyle}>{usedLetters.join(" ")}</div>
+        </div>
+      )}
+      {remainingLetters.length > 0 &&
+        selectedWords.length > 0 &&
+        remainingLetters.length < cleanInput(baseWord).length && (
           <div>
-            <div style={sectionStyle}>Letters Used</div>
-            <div style={lettersStyle}>{usedLetters.join(" ")}</div>
+            <div style={sectionStyle}>Letters Remaining</div>
+            <div style={lettersStyle}>{remainingLetters.join(" ")}</div>
           </div>
         )}
-      </div>
-      <div>
-        {remainingLetters.length > 0 &&
-          selectedWords.length > 0 &&
-          remainingLetters.length < cleanInput(baseWord).length && (
-            <div>
-              <div style={sectionStyle}>Letters Remaining</div>
-              <div style={lettersStyle}>{remainingLetters.join(" ")}</div>
-            </div>
-          )}
-      </div>
-      <div>
-        {/* should be a function that just hides when empty */}
-        {excessLetters.length > 0 && (
-          <div>
-            <div style={sectionStyle}>Excess Letters!</div>
-            <div style={lettersStyle}>{excessLetters.join(" ")}</div>
-          </div>
-        )}
-      </div>
-      <div>
-        {selectedWords.length > 0 && (
-          <div>
-            <div style={sectionStyle}>Selected Words:</div>
-            {makeSelected(selectedWords)}
-          </div>
-        )}
-      </div>
-      <div>
-        {candidates.size > 0 && (
-          <div>
-            <div style={sectionStyle}>Candidates:</div>
-            {Candidates(candidates)}
-          </div>
-        )}
-      </div>
+      {excessLetters.length > 0 && (
+        <div>
+          <div style={sectionStyle}>Excess Letters!</div>
+          <div style={lettersStyle}>{excessLetters.join(" ")}</div>
+        </div>
+      )}
+      {selectedWords.length > 0 && (
+        <div>
+          <div style={sectionStyle}>Selected Words:</div>
+          {makeSelected(selectedWords)}
+        </div>
+      )}
+      {candidates.size > 0 && (
+        <div>
+          <div style={sectionStyle}>Candidates:</div>
+          {Candidates(candidates)}
+        </div>
+      )}
     </div>
   );
 }
