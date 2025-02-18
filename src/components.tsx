@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const baseStyle = {
   padding: "2px 8px", // px-2 py-0.5
@@ -19,6 +19,32 @@ const activeStyle = {
   "&:active": {
     backgroundColor: "#d1d5db", // Add even darker color when clicked
   },
+};
+
+const accordionStyle = {
+  border: "1px solid #e5e7eb",
+  borderRadius: "6px",
+  overflow: "hidden",
+  margin: "4px 0",
+};
+
+const headerStyle = {
+  padding: "8px 16px",
+  backgroundColor: "white",
+  cursor: "pointer",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  transition: "background-color 0.1s",
+  "&:hover": {
+    backgroundColor: "#f9fafb",
+  },
+};
+
+const contentStyle = {
+  padding: "8px 16px",
+  backgroundColor: "white",
+  borderTop: "1px solid #e5e7eb",
 };
 
 interface ChipProps {
@@ -77,4 +103,26 @@ const Button = ({ text, style, ...props }: ButtonProps) => (
   </button>
 );
 
-export { Chip, Input, Button };
+interface AccordionItemProps {
+  title: string;
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+}
+
+const AccordionItem = ({ title, children, style }: AccordionItemProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div style={{ ...accordionStyle, ...style }}>
+      <div onClick={() => setIsOpen(!isOpen)} style={headerStyle}>
+        <span>{title}</span>
+        <span style={{ transform: isOpen ? "rotate(180deg)" : undefined }}>
+          ▼
+        </span>
+      </div>
+      {isOpen && <div style={contentStyle}>{children}</div>}
+    </div>
+  );
+};
+
+export { Chip, Input, Button, AccordionItem };

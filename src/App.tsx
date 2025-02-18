@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Chip, Input, Button } from "./components";
+import { Chip, Input, Button, AccordionItem } from "./components";
 import { getWordMaps } from "./lib/word-maps";
 import { getAnagramKeys } from "./lib/anagrams";
 
@@ -190,19 +190,20 @@ function App() {
     <div style={containerStyle}>
       {/* TODO: add dropdown to select word list. also, add a smaller wordlist */}
       <div style={textBlockStyle}>
-        <h1>Manarag</h1>
-        Type something in to see candidate anagrams of different lengths. You
-        can also add a custom word if the one you want isn't present. The word
-        list it's using right now is apparently full of two letter non-words.
-        I'll look for a better one. Also, it does that classic React flicker.
-        Why did I use React? The devil you know is better than the devil that
-        requires you to learn a new Javascript framework.
-        <br />
-        <br />
-        Also, this does searches client side. If you put in a big enough string
-        it will have to do way too much searching and crash your browser. I
-        could have prevented this, but I didn't because it is your God-given
-        right to crash your own hardware.
+        <h1>a rag man</h1>
+        <AccordionItem title="How To / About">
+          Type something in to see candidate anagrams of different lengths. You
+          can also add a custom word if the one you want isn't present. The word
+          list it's using right now is apparently full of two letter non-words.
+          I'll look for a better one. Also, it does that classic React flicker.
+          Why did I use React? The devil you know is better than the devil that
+          requires you to learn a new Javascript framework.
+          <br />
+          Also, this does searches client side. If you put in a big enough
+          string it will have to do way too much searching and crash your
+          browser. I could have prevented this, but I didn't because it is your
+          God-given right to crash your own hardware.
+        </AccordionItem>
       </div>
       <div style={inputGroupStyle}>
         <Input
