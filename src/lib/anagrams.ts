@@ -22,7 +22,7 @@ export const getAnagramKeys = (
     }
   }
   helper(sorted, "");
-  return anagramKeys;
+  return new Map([...anagramKeys.entries()].sort((a, b) => b[0] - a[0]));
 };
 
 // function rot13(s: string) {
@@ -53,8 +53,6 @@ export const getAnagramKeys = (
 // const rot13Map = { ...upperRot13, ...lowerRot13 };
 // rot13 never changes... so just generate it once and store it, its tiny
 // }
-
-// GENERATE CHIPS
 
 // DEFINITIONS
 // use dictionary.dev for embedded definitions?
