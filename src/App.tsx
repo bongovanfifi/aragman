@@ -6,32 +6,21 @@ import { getAnagramKeys } from "./lib/anagrams";
 const containerStyle = {
   display: "flex",
   flexDirection: "column" as const,
-  gap: "10px",
+  gap: "10px 5px",
   width: "95%",
   maxWidth: "600px", // Keep the max-width for desktop
-  margin: "10px",
 };
 
 const inputGroupStyle = {
   display: "flex",
   alignItems: "center",
-  gap: "10px",
-  flexWrap: "wrap" as const,
+  gap: "5px 5px",
   width: "100%",
 };
 
 const inputStyle = {
-  width: "200px",
-};
-
-const textBlockStyle = {
-  width: "100%", // Changed from fixed 500px to be responsive
-  maxWidth: "500px", // Added max-width to maintain readability on larger screens
-  textAlign: "left" as const,
-};
-
-const lettersStyle = {
-  fontSize: "1rem",
+  width: "80%",
+  minWidth: "40%",
 };
 
 const sectionStyle = {
@@ -189,7 +178,7 @@ function App() {
   return (
     <div style={containerStyle}>
       {/* TODO: add dropdown to select word list. also, add a smaller wordlist */}
-      <div style={textBlockStyle}>
+      <div>
         <h1>a rag man</h1>
         <AccordionItem title="How To / About">
           Type something in to see candidate anagrams of different lengths. You
@@ -245,7 +234,7 @@ function App() {
       {usedLetters.length > 0 && (
         <div>
           <div style={sectionStyle}>Letters Used</div>
-          <div style={lettersStyle}>{usedLetters.join(" ")}</div>
+          {usedLetters.join(" ")}
         </div>
       )}
       {remainingLetters.length > 0 &&
@@ -253,13 +242,13 @@ function App() {
         remainingLetters.length < cleanInput(baseWord).length && (
           <div>
             <div style={sectionStyle}>Letters Remaining</div>
-            <div style={lettersStyle}>{remainingLetters.join(" ")}</div>
+            {remainingLetters.join(" ")}
           </div>
         )}
       {excessLetters.length > 0 && (
         <div>
           <div style={sectionStyle}>Excess Letters!</div>
-          <div style={lettersStyle}>{excessLetters.join(" ")}</div>
+          {excessLetters.join(" ")}
         </div>
       )}
       {selectedWords.length > 0 && (

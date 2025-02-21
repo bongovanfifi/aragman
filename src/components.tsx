@@ -25,7 +25,6 @@ const accordionStyle = {
   border: "1px solid #e5e7eb",
   borderRadius: "6px",
   overflow: "hidden",
-  margin: "4px 0",
 };
 
 const headerStyle = {

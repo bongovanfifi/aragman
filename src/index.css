@@ -19,11 +19,10 @@ body {
 @media screen and (max-width: 600px) {
   input, button {
     width: 100% !important;
-    margin-bottom: 8px;
   }
 
   span[style*="minWidth"] {
     min-width: 100% !important;
-    margin-bottom: 4px;
   }
 }
+
