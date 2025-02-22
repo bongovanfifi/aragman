@@ -91,6 +91,9 @@ const Input = ({ style, ...props }: InputProps) => (
 
 const Button = ({ text, style, ...props }: ButtonProps) => (
   <button
+    onMouseDown={(e) => (e.currentTarget.style.backgroundColor = "#e5e7eb")}
+    onMouseUp={(e) => (e.currentTarget.style.backgroundColor = "white")}
+    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "white")}
     style={{
       ...baseStyle,
       ...defaultStyle,

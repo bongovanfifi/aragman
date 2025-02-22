@@ -31,6 +31,13 @@ const inputStyle = {
   minWidth: "40%",
 };
 
+const buttonsStyle = {
+  display: "flex",
+  flexWrap: "wrap" as const,
+  gap: "10px",
+  marginBottom: "10px",
+};
+
 const sectionStyle = {
   fontSize: "1.2rem",
   fontWeight: "bold",
@@ -103,6 +110,12 @@ function App() {
 
   const handleDeselectWord = (index: number) => {
     setSelectedWords((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleCopyAnagram = async () => {
+    await navigator.clipboard.writeText(
+      `${baseWord} → ${selectedWords.join(" ")}`
+    );
   };
 
   type CandidateMap = Map<number, Set<string>>;
@@ -280,10 +293,30 @@ function App() {
             placeholder="Enter custom word"
             value={subWord}
             onChange={(e) => setSubWord(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSelectWord(subWord);
+              }
+            }}
             style={inputStyle}
           />
-          <Button text="Add word" onClick={() => handleSelectWord(subWord)} />
         </div>
+        <div style={buttonsStyle}>
+          <Button text="Add word" onClick={() => handleSelectWord(subWord)} />
+          <Button
+            text="Clear Selected Words"
+            onClick={() => setSelectedWords([])}
+          />
+          {selectedWords.length > 0 &&
+            remainingLetters.length == 0 &&
+            excessLetters.length == 0 && (
+              <Button
+                text="Copy Perfect Anagram!"
+                onClick={handleCopyAnagram}
+              />
+            )}
+        </div>
+
         {/* <div style={inputGroupStyle}>
         <Button
           text="Search using remaining letters"
