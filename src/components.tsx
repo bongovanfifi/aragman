@@ -124,4 +124,31 @@ const AccordionItem = ({ title, children, style }: AccordionItemProps) => {
   );
 };
 
-export { Chip, Input, Button, AccordionItem };
+interface SelectOption {
+  value: string;
+  display: string;
+}
+
+interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  options: SelectOption[];
+  style?: React.CSSProperties;
+}
+
+const Select = ({ options, style, ...props }: SelectProps) => (
+  <select
+    style={{
+      ...baseStyle,
+      ...defaultStyle,
+      ...style,
+    }}
+    {...props}
+  >
+    {options.map((option) => (
+      <option key={option.value} value={option.value}>
+        {option.display}
+      </option>
+    ))}
+  </select>
+);
+
+export { Chip, Input, Button, AccordionItem, Select };

@@ -1,14 +1,24 @@
-// src/lib/word-maps.ts
-// import popularMap from "../assets/words/wm-popular.json";
-// import completeMap from "../assets/words/wm-complete.json";
 import tenK from "../assets/words/wm-10k.json";
-// Type assertion to help TypeScript understand the structure
-export function getWordMaps() {
-  return {
-    // popular: new Map(popularMap as [string, string[]][]),
-    // complete: new Map(completeMap as [string, string[]][]),
-    tenK: new Map(tenK as [string, string[]][]),
-  };
-}
+import twentyK from "../assets/words/wm-20k.json";
+import thirtyK from "../assets/words/wm-30k.json";
+import popular from "../assets/words/wm-popular.json";
+import enable1 from "../assets/words/wm-enable1.json";
+import scrabble from "../assets/words/wm-scrabble.json";
 
-//TODO: import many, allow the user to pick from them
+const wordMaps = {
+  tenK,
+  twentyK,
+  thirtyK,
+  popular,
+  enable1,
+  scrabble,
+} as const;
+
+export function getWordMaps() {
+  return Object.fromEntries(
+    Object.entries(wordMaps).map(([name, data]) => [
+      name,
+      new Map(data as [string, string[]][]),
+    ])
+  );
+}

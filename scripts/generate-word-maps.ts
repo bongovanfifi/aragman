@@ -17,42 +17,20 @@ function toWordMap(path: string): Map<string, string[]> {
   const text = fs.readFileSync(path, "utf-8");
   const wordMap = new Map<string, string[]>();
   text.split("\n").forEach((word) => {
-    const key = word.split("").sort().join("");
+    const key = word.split("").sort().join("").toLowerCase().trim();
     const existing = wordMap.get(key) || [];
-    wordMap.set(key, [...existing, word]);
+    wordMap.set(key, [...existing, word.toLowerCase()]);
   });
   return wordMap;
 }
-
-const sources = [
-  {
-    mapPath: join(__dirname, "../src/assets/words/wm-popular.json"),
-    wordListPath: join(__dirname, "../src/assets/words/enable1.txt"),
-  },
-  {
-    mapPath: join(__dirname, "../src/assets/words/wm-complete.json"),
-    wordListPath: join(__dirname, "../src/assets/words/popular.txt"),
-  },
-  {
-    mapPath: join(__dirname, "../src/assets/words/wm-10k.json"),
-    wordListPath: join(__dirname, "../src/assets/words/10k.txt"),
-  },
-  {
-    mapPath: join(__dirname, "../src/assets/words/wm-20k.json"),
-    wordListPath: join(__dirname, "../src/assets/words/20k.txt"),
-  },
-  {
-    mapPath: join(__dirname, "../src/assets/words/wm-30k.json"),
-    wordListPath: join(__dirname, "../src/assets/words/30k.txt"),
-  },
-];
-
-// Create directory if it doesn't exist
 const dir = join(__dirname, "../src/assets/words");
 fs.mkdirSync(dir, { recursive: true });
-
-for (const { mapPath, wordListPath } of sources) {
+const txtFiles = fs.readdirSync(dir).filter((file) => file.endsWith(".txt"));
+txtFiles.forEach((txtFile) => {
+  const baseName = txtFile.replace(".txt", "");
+  const mapPath = join(dir, `wm-${baseName}.json`);
+  const wordListPath = join(dir, txtFile);
   const wordMap = toWordMap(wordListPath);
   fs.writeFileSync(mapPath, JSON.stringify(Array.from(wordMap.entries())));
   console.log(`Generated ${mapPath}`);
-}
+});

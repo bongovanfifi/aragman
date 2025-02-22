@@ -4,3 +4,5 @@ enable1.txt and popular.txt are from https://github.com/dolph/dictionary/tree/ma
 No one claims ownership over these and they're widely used by word games and such, but the copyright status is unclear so maybe I should switch off of these eventually. On the other hand, these lists were made on some forum by a group for common use. Anyway, no one seems to care. 
 
 https://github.com/arstgit/high-frequency-vocabulary is also pretty good, this has the most common 10k, 20k, and 30k. This set is pretty indiscriminate, and contains some wacky stuff. And MIT licensed! We love to see it.
+
+https://www.freescrabbledictionary.com/twl06/download/twl06.txt I guess sowpods is free to use?

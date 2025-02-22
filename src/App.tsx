@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Chip, Input, Button, AccordionItem } from "./components";
+import { Chip, Input, Button, AccordionItem, Select } from "./components";
 import { getWordMaps } from "./lib/word-maps";
 import { getAnagramKeys } from "./lib/anagrams";
 
@@ -19,7 +19,7 @@ const inputGroupStyle = {
 };
 
 const inputStyle = {
-  width: "80%",
+  width: "75%",
   minWidth: "40%",
 };
 
@@ -33,7 +33,34 @@ const lengthStyle = {
   fontWeight: "bold",
 };
 
-const { tenK } = getWordMaps();
+const wordMaps = getWordMaps();
+
+const options = [
+  {
+    value: "tenK",
+    display: `10,000 Words (${wordMaps["tenK"].size.toLocaleString()} keys)`,
+  },
+  {
+    value: "twentyK",
+    display: `20,000 Words (${wordMaps["twentyK"].size.toLocaleString()} keys`,
+  },
+  {
+    value: "thirtyK",
+    display: `30,000 Words (${wordMaps["thirtyK"].size.toLocaleString()} keys`,
+  },
+  {
+    value: "popular",
+    display: `Popular (${wordMaps["popular"].size.toLocaleString()} keys)`,
+  },
+  {
+    value: "enable1",
+    display: `Enable1 (${wordMaps["enable1"].size.toLocaleString()} keys)`,
+  },
+  {
+    value: "scrabble",
+    display: `Scrabble (${wordMaps["scrabble"].size.toLocaleString()} keys)`,
+  },
+];
 
 function App() {
   const [baseWord, setBaseWord] = useState("");
@@ -45,13 +72,18 @@ function App() {
   const [usedLetters, setUsedLetters] = useState<string[]>([]);
   const [remainingLetters, setRemainingLetters] = useState<string[]>([]);
   const [excessLetters, setExcessLetters] = useState<string[]>([]);
+  const [selectedWordMap, setSelectedWordMap] = useState<string>("enable1");
+
+  console.log(selectedWordMap);
 
   const cleanInput = (word: string) => {
     return word.replace(/[^a-zA-Z]/g, "").toLowerCase();
   };
 
   const handleSearch = (word: string) => {
-    const results = getAnagramKeys(tenK, cleanInput(word));
+    console.log("search triggered");
+    const wordMap = wordMaps[selectedWordMap as keyof typeof wordMaps];
+    const results = getAnagramKeys(wordMap, cleanInput(word));
     setCandidates(results);
   };
 
@@ -173,7 +205,7 @@ function App() {
 
   useEffect(() => {
     handleSearch(remainingLetters.join(""));
-  }, [remainingLetters]);
+  }, [remainingLetters, selectedWordMap]);
 
   return (
     <div style={containerStyle}>
@@ -182,17 +214,37 @@ function App() {
         <h1>a rag man</h1>
         <AccordionItem title="How To / About">
           Type something in to see candidate anagrams of different lengths. You
-          can also add a custom word if the one you want isn't present. The word
-          list it's using right now is apparently full of two letter non-words.
-          I'll look for a better one. Also, it does that classic React flicker.
-          Why did I use React? The devil you know is better than the devil that
-          requires you to learn a new Javascript framework.
+          can also add a custom word if the one you want isn't present. There
+          are many word lists to choose from right now, as I find which ones are
+          not bringing anything of value, I'll remove them.
+          <br />
+          The 10k, 20k, and 30k word lists seem possibly lower quality, I think
+          they were collected with scraping? Source{" "}
+          <a href="https://github.com/arstgit/high-frequency-vocabulary">
+            here.
+          </a>{" "}
+          Enable1 and Popular are{" "}
+          <a href="https://github.com/dolph/dictionary/tree/master">here.</a>{" "}
+          Finally, the "Scrabble" list comes from SOWPODS which is...
+          approximately the Scrabble word list? I'm really not sure. But it's
+          not copyrighted, unlike the official list. Source{" "}
+          <a href="https://www.freescrabbledictionary.com/twl06/download/twl06.txt">
+            here.
+          </a>
           <br />
           Also, this does searches client side. If you put in a big enough
-          string it will have to do way too much searching and crash your
-          browser. I could have prevented this, but I didn't because it is your
-          God-given right to crash your own hardware.
+          string with a big enough word list, you will crash your browser. I
+          could have prevented this, but I didn't because it is your God-given
+          right to crash your own hardware.
         </AccordionItem>
+      </div>
+      <div>
+        Word List:{" "}
+        <Select
+          options={options}
+          value={selectedWordMap}
+          onChange={(e) => setSelectedWordMap(e.target.value)}
+        />
       </div>
       <div style={inputGroupStyle}>
         <Input
