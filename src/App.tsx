@@ -89,14 +89,11 @@ function App() {
   const [excessLetters, setExcessLetters] = useState<string[]>([]);
   const [selectedWordMap, setSelectedWordMap] = useState<string>("enable1");
 
-  console.log(selectedWordMap);
-
   const cleanInput = (word: string) => {
     return word.replace(/[^a-zA-Z]/g, "").toLowerCase();
   };
 
   const handleSearch = (word: string) => {
-    console.log("search triggered");
     const wordMap = wordMaps[selectedWordMap as keyof typeof wordMaps];
     const results = getAnagramKeys(wordMap, cleanInput(word));
     setCandidates(results);

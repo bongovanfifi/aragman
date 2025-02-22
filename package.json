@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "generate-word-maps": "tsx scripts/generate-word-maps.ts",
-    "deploy": "npm run build; gh-pages -d dist"
+    "deploy": "npm run build; gh-pages -d dist",
+    "deploy2": "npm run build && gh-pages -d dist -r https://github.com/bongovanfifi/aragman.git -b gh-pages"
   },
   "dependencies": {
     "react": "^19.0.0",
