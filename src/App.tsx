@@ -42,11 +42,11 @@ const options = [
   },
   {
     value: "twentyK",
-    display: `20,000 Words (${wordMaps["twentyK"].size.toLocaleString()} keys`,
+    display: `20,000 Words (${wordMaps["twentyK"].size.toLocaleString()} keys)`,
   },
   {
     value: "thirtyK",
-    display: `30,000 Words (${wordMaps["thirtyK"].size.toLocaleString()} keys`,
+    display: `30,000 Words (${wordMaps["thirtyK"].size.toLocaleString()} keys)`,
   },
   {
     value: "popular",
@@ -230,7 +230,10 @@ function App() {
           not copyrighted, unlike the official list. Source{" "}
           <a href="https://www.freescrabbledictionary.com/twl06/download/twl06.txt">
             here.
-          </a>
+          </a>{" "}
+          The lists include information about "keys" rather than "words" because
+          it searches for keys that correspond to sets of words rather than the
+          words themselves.
           <br />
           Also, this does searches client side. If you put in a big enough
           string with a big enough word list, you will crash your browser. I
