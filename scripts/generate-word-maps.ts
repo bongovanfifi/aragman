@@ -32,5 +32,4 @@ txtFiles.forEach((txtFile) => {
   const wordListPath = join(dir, txtFile);
   const wordMap = toWordMap(wordListPath);
   fs.writeFileSync(mapPath, JSON.stringify(Array.from(wordMap.entries())));
-  console.log(`Generated ${mapPath}`);
 });
