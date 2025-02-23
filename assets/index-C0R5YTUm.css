@@ -1,0 +1,1 @@
+:root{--primary-color: #000000;--background-color: #fffef9}body{font-family:system-ui,sans-serif;color:var(--primary-color);background-color:var(--background-color)}.mono{font-family:ui-monospace,monospace}@media screen and (max-width: 600px){input,button{width:100%!important}span[style*=minWidth]{min-width:100%!important}}
